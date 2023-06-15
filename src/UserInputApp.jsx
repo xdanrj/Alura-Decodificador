@@ -19,30 +19,63 @@ function UserInputApp() {
     const alfabeto1 = { "a": "ai", "e": "enter", "i": "imes", "o": "ober", "u": "ufat" }
     const alfabeto2 = { "ai": "a", "enter": "e", "imes": "i", "ober": "o", "ufat": "u" }
 
+    function hasUppercase(str) {
+        const letraMaiuscula = /[A-Z]/
+        if (letraMaiuscula.test(str)) {
+            console.log("Letra maiuscula TRUE")
+
+            return str.toLowerCase()
+        } else {
+            console.log("Letra maiuscula FALSE")
+            return str
+        }
+    }
+
     const handleSubmitCod = (e) => {
         e.preventDefault()
-        let doneTextCod = textCod
-        
-        for(const chave in alfabeto1) {
-            if( textCod.includes(chave) ) {
-                doneTextCod = doneTextCod.replace( new RegExp(chave, 'g'), alfabeto1[chave] )
+
+        console.log("pre: " + textCod)
+        let formatTextCod = hasUppercase(textCod)
+        console.log("pos:" + formatTextCod)
+
+        let doneTextCod = ""
+
+        Array.from(formatTextCod).forEach( (char) => {
+            if (char in alfabeto1) {
+                doneTextCod += alfabeto1[char]
+            } else {
+                doneTextCod += char
             }
-        }
+        })
+
+        /*for (const chave in alfabeto1) {
+            if ( formatTextCod.includes(chave) ) {
+                doneTextCod += alfabeto1[chave]
+ 
+        formatTextCod = formatTextCod.replace(new RegExp(chave, 'g'), alfabeto1[chave])
+        */
         setTextDec(doneTextCod)
-        console.log(doneTextCod)
+        console.log("resultado: " + doneTextCod)
     }
+
+
 
     const handleSubmitDec = (e) => {
         e.preventDefault()
-        let doneTextDec = textDec
-        
-        for(const chave in alfabeto2) {
-            if( textDec.includes(chave) ) {
-                doneTextDec = doneTextDec.replace( new RegExp(chave, 'g'), alfabeto2[chave] )
+        let doneTextDec = ""
+
+        let formatTextDec = hasUppercase(textDec)
+
+        Array.from(formatTextDec).forEach( (char) => {
+            if (char in alfabeto2) {
+                doneTextDec += alfabeto2[char]
+            } else {
+                doneTextDec += char
             }
-        }
+        })
+
         setTextCod(doneTextDec)
-        console.log(doneTextDec)
+        console.log("resultado: " + doneTextDec)
 
     }
 
@@ -55,17 +88,17 @@ function UserInputApp() {
                     </FormControl>
                     <Button type='submit'>Codificar</Button>
                 </FormGroup>
-                </Form>
+            </Form>
 
-                <Form onSubmit={handleSubmitDec}>
+            <Form onSubmit={handleSubmitDec}>
                 <FormGroup>
                     <FormLabel>Decodificador</FormLabel>
                     <FormControl as='textarea' value={textDec} onChange={handleDecChange}>
                     </FormControl>
                     <Button type='submit'>Decodificar</Button>
                 </FormGroup>
-                </Form>
-           
+            </Form>
+
         </Container>
 
     )
